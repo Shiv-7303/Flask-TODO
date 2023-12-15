@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<!-- form  -->
+<div class="container-fluid">
+  <h2>Update Your ToDo</h2>
+  <form action="/update/{{todo.sno}}" method="POST">
+    <div class="mb-3">
+      <label for="title" class="form-label", p>Title</label>
+      <input
+        type="text"
+        name="title"
+        class="form-control"
+        id="title"
+        value="{{todo.title}}"
+        aria-describedby="emailHelp"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="desc" class="form-label">Description</label>
+        
+        <input type="text" value="{{todo.desc}}" name="desc" class="form-control" id="desc" />
+    </div>
+    <button type="submit" class="btn btn-outline-dark px-3 py-2">Update</button>
+  </form>
+</div>
+<!-- Creating Tables -->
+
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+  crossorigin="anonymous"
+></script>
+{% endblock body %}

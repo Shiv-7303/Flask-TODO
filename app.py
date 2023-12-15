@@ -39,7 +39,7 @@ def home():
         db.session.add(todo)
         db.session.commit()
     alltodo = ToDo.query.all()
-    return render_template("index.html",alltodo=alltodo)
+    return render_template("index.html", alltodo=alltodo)
 
 
 @app.route("/delete/<int:sno>")
@@ -49,10 +49,41 @@ def delete(sno):
     db.session.commit()
     return redirect("/")
 
-@app.route("/update",)
-def update(sno):
-    return "This is the product page"
 
+@app.route(
+    "/update/<int:sno>",
+    methods=[
+        "GET",
+        "POST",
+    ],
+)
+def update(sno):
+    if request.method == "POST":
+        title = request.form["title"]
+        desc = request.form["desc"]
+        instance = ToDo.query.filter_by(sno=sno).first()
+        instance.title = title
+        instance.desc = desc
+        db.session.add(instance)
+        db.session.commit()
+        return redirect("/")
+    instance = ToDo.query.filter_by(sno=sno).first()
+    return render_template("update.html", todo=instance)
+
+
+
+@app.route("/search",methods=['POST', 'GET'])
+def search():
+    if request.method == "POST":
+        title = request.form["title"]
+        instance = ToDo.query.filter_by(title=title).all()
+        if instance:
+            return render_template("search.html", todos=instance)
+        else:
+            return render_template("search.html", message = "NO TODO Found")
+    else:
+        return render_template('search.html')
+        
 
 if __name__ == "__main__":
     app.run(debug=True)
