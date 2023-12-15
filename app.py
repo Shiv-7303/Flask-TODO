@@ -33,8 +33,8 @@ with app.app_context():
 )
 def home():
     if request.method == "POST":
-        title = request.form["title"]
-        desc = request.form["desc"]
+        title = request.form["title"].strip()
+        desc = request.form["desc"].strip()
         todo = ToDo(desc=desc, title=title)
         db.session.add(todo)
         db.session.commit()
@@ -59,8 +59,8 @@ def delete(sno):
 )
 def update(sno):
     if request.method == "POST":
-        title = request.form["title"]
-        desc = request.form["desc"]
+        title = request.form["title"].strip()
+        desc = request.form["desc"].strip()
         instance = ToDo.query.filter_by(sno=sno).first()
         instance.title = title
         instance.desc = desc
@@ -75,7 +75,7 @@ def update(sno):
 @app.route("/search",methods=['POST', 'GET'])
 def search():
     if request.method == "POST":
-        title = request.form["title"]
+        title = request.form["title"].strip()
         instance = ToDo.query.filter_by(title=title).all()
         if instance:
             return render_template("search.html", todos=instance)
